@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -8,12 +9,11 @@ import { useStateValue } from "./state";
 import { Patient } from "./types";
 
 import PatientListPage from "./PatientListPage";
+import PatientC from "./components/Patient";
 
 const App = () => {
-  const [, dispatch] = useStateValue();
+  const [list, dispatch] = useStateValue();
   React.useEffect(() => {
-    void axios.get<void>(`${apiBaseUrl}/ping`);
-
     const fetchPatientList = async () => {
       try {
         const { data: patientListFromApi } = await axios.get<Patient[]>(
@@ -26,7 +26,6 @@ const App = () => {
     };
     void fetchPatientList();
   }, [dispatch]);
-
   return (
     <div className="App">
       <Router>
@@ -37,8 +36,11 @@ const App = () => {
           </Button>
           <Divider hidden />
           <Switch>
-            <Route path="/">
+            <Route exact path="/">
               <PatientListPage />
+            </Route>
+            <Route path="/patients/:id">
+              <PatientC />
             </Route>
           </Switch>
         </Container>
