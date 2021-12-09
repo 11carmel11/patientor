@@ -1,31 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Button, Divider, Header, Container } from "semantic-ui-react";
 
-import { apiBaseUrl } from "./constants";
-import { useStateValue } from "./state";
-import { Patient } from "./types";
+// import { apiBaseUrl } from "./constants";
+import { setPatientList, useStateValue } from "./state";
+// import { Patient } from "./types";
 
 import PatientListPage from "./PatientListPage";
 import PatientC from "./components/Patient";
 
 const App = () => {
-  const [list, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
+
   React.useEffect(() => {
-    const fetchPatientList = async () => {
-      try {
-        const { data: patientListFromApi } = await axios.get<Patient[]>(
-          `${apiBaseUrl}/patients`
-        );
-        dispatch({ type: "SET_PATIENT_LIST", payload: patientListFromApi });
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    void fetchPatientList();
+    void setPatientList(dispatch);
   }, [dispatch]);
+
   return (
     <div className="App">
       <Router>
