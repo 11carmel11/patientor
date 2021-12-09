@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import EntryModal from "../addEntryModal/EntryModal";
 import { useParams } from "react-router";
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
 import { Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 export default function PatientC() {
   const [patient, setPatient] = useState({} as Patient);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
   useEffect(() => {
     const getPat = async () => {
@@ -74,6 +77,20 @@ export default function PatientC() {
           </div>
         </p>
       ) : null}
+      <EntryModal
+        open={openModal}
+        closeHandler={() => {
+          setOpenModal(false);
+        }}
+        id={patient.id}
+      />
+      <Button
+        onClick={() => {
+          setOpenModal(true);
+        }}
+      >
+        add new entry
+      </Button>
     </div>
   );
 }
