@@ -34,7 +34,46 @@ export default function PatientC() {
       <p>
         <b>Occupation:</b> <i>{patient.occupation}</i>
       </p>
-      <strong>{patient.dateOfBirth}</strong> <br />
+      <p>
+        <b>Date of birth:</b> <i>{patient.dateOfBirth}</i>
+      </p>
+      {patient.entries ? (
+        <p>
+          <b>Entries:</b>{" "}
+          <div>
+            {patient.entries.length
+              ? patient.entries.map((entry) => {
+                  return (
+                    <blockquote
+                      style={{ border: "3px solid black" }}
+                      key={patient.id}
+                    >
+                      <strong>type:</strong> {entry.type} entry
+                      <br />
+                      <strong>date:</strong> {entry.date}
+                      <br />
+                      {entry.type === "HealthCheck" ? (
+                        <p>
+                          <strong>description:</strong> {entry.description}
+                        </p>
+                      ) : (
+                        <p>
+                          <strong>Diagnose codes:</strong>
+                          <ul>
+                            {entry.diagnosisCodes?.map((DC) => {
+                              return <li key={patient.id}>{DC}</li>;
+                            })}
+                          </ul>
+                        </p>
+                      )}
+                      <br />
+                    </blockquote>
+                  );
+                })
+              : "None"}
+          </div>
+        </p>
+      ) : null}
     </div>
   );
 }
